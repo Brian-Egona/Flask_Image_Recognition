@@ -115,4 +115,3 @@ def test_edge_case_upload_over_http2(client):
 
     # Ensure that the image upload works successfully over HTTP/2
     assert b"Prediction" in response.data  # Modify based on actual prediction content
-
