@@ -37,7 +37,7 @@ jobs:
       - name: Run pylint checks
         run: |
           pylint **/*.py --max-line-length=120  # Ensure pylint runs on Python files in all directories
-  
+
 
   unit_tests:
     needs: pre_commit_pylint  # This job depends on the completion of pre_commit_pylint
