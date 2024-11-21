@@ -1,6 +1,7 @@
 # Importing required libs
 from flask import Flask, render_template, request
 from model import preprocess_img, predict_result
+from urllib.parse import quote as url_quote  # Added this import for url_quote
 
 # Instantiating flask app
 app = Flask(__name__)
