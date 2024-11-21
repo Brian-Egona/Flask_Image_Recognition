@@ -156,4 +156,4 @@ jobs:
       # Install the Python wheel package
       - name: Install Python Wheel Package
         run: |
-          pip install ./python-package/*.whl  # Install the downloaded .whl package
+          pip install ./Flask_Image_Recognition-0.1-py3-none-any.whl  # Install the downloaded .whl package
