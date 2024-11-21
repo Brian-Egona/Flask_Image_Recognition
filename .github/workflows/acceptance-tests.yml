@@ -111,9 +111,28 @@ jobs:
           pytest test_acceptance_happy.py test_acceptance_sad.py test_acceptance_edge_cases.py --maxfail=1 --disable-warnings -q  # Run acceptance tests
         continue-on-error: false  # Ensure the workflow fails if these tests fail
 
-        # Step to download the .whl artifact and install the package after acceptance_tests job
-  install_python_package:
+  # Upload Python Wheel Package Job
+  upload_python_package:
     needs: acceptance_tests  # This job depends on the completion of acceptance_tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build Python Wheel
+        run: |
+          python setup.py bdist_wheel  # Example build command
+          ls dist  # Check that the .whl file is built
+
+      - name: Upload Python Wheel Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: python-package  # Same name as used in download step
+          path: ./dist/*.whl  # Path to the .whl file
+
+  # Install Python Package Job (after upload)
+  install_python_package:
+    needs: upload_python_package  # Make sure it depends on the upload job
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -128,7 +147,7 @@ jobs:
       - name: Download Python Wheel Artifact
         uses: actions/download-artifact@v4
         with:
-          name: python-package
+          name: python-package  # Ensure this matches the uploaded name
 
       # Install the Python wheel package
       - name: Install Python Wheel Package
