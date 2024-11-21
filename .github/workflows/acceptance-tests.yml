@@ -131,22 +131,30 @@ jobs:
           path: ./dist/*.whl  # Path to the .whl file
 
   install_python_package:
-    needs: upload_python_package
+    needs: upload_python_package  # Make sure it depends on the upload job
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: '3.9'
+
+      # Download the artifact containing the .whl file
       - name: Download Python Wheel Artifact
         uses: actions/download-artifact@v4
         with:
-          name: python-package
+          name: python-package  # Ensure this matches the uploaded name
+
+      # List the files to verify the downloaded artifact
       - name: List downloaded files
         run: |
-          ls ./python-package  # List files to ensure the .whl file is there
+          ls -R ./  # List all files recursively to find the .whl file
+
+      # Install the Python wheel package
       - name: Install Python Wheel Package
         run: |
-          pip install ./python-package/*.whl
+          pip install ./python-package/*.whl  # Install the downloaded .whl package
+
