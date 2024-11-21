@@ -125,7 +125,7 @@ jobs:
           ls dist  # Check that the .whl file is built
 
       - name: Upload Python Wheel Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: python-package  # Same name as used in download step
           path: ./dist/*.whl  # Path to the .whl file
